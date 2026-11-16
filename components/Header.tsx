@@ -18,8 +18,18 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="...">
-      {/* Keep your existing JSX here, rendering {currentDate} */}
+    <header className="bg-blue-900 text-white shadow-md">
+      <div className="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight">
+            Sacrament Meeting Planner
+          </h1>
+          {currentDate && (
+            <p className="text-xs text-blue-200">{currentDate}</p>
+          )}
+        </div>
+        <NavLinks />
+      </div>
     </header>
   );
 }

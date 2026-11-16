@@ -1,3 +1,4 @@
+'use client';
 import type { SacramentMeeting } from '@/lib/types';
 
 interface MeetingDetailProps {
