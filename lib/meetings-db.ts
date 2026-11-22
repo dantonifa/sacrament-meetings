@@ -1,205 +1,268 @@
-import type { SacramentMeeting } from './types';
+import { neon } from "@neondatabase/serverless";
+import type { SacramentMeeting } from "./types";
 
-const meetings: SacramentMeeting[] = [
-  {
-    id: 1,
-    date: '2026-10-04',
-    meetingType: 'general',
-    presiding: 'President Russell M. Nelson',
-    conducting: 'President Dallin H. Oaks',
-    announcements: [
-      'General Conference Sunday Morning and Afternoon Sessions',
-      'Regular ward sacrament meetings resume next Sunday',
-    ],
-    openingHymn: { number: 2, title: 'The Spirit of God' },
-    openingPrayer: 'General Authority Assignment',
-    wardBusiness: [],
-    stakeBusiness: false,
-    sacramentHymn: { number: 193, title: 'I Stand All Amazed' },
-    speakers: [
-      {
-        name: 'General Authorities and General Officers',
-        topic: 'October 2026 General Conference',
-        type: 'speaker',
-      },
-    ],
-    closingHymn: { number: 19, title: 'We Thank Thee, O God, for a Prophet' },
-    closingPrayer: 'General Authority Assignment',
-  },
-  {
-    id: 2,
-    date: '2026-10-25',
-    meetingType: 'stake',
-    presiding: 'President Carlos Mendoza',
-    conducting: 'President Roberto Zelaya',
-    announcements: [
-      'San Pedro Sula Honduras Stake Conference',
-      'Adult leadership session Saturday at 4:00 PM',
-    ],
-    openingHymn: { number: 26, title: 'Joseph Smith’s First Prayer' },
-    openingPrayer: 'Sister Elena Morales',
-    wardBusiness: [],
-    stakeBusiness: true,
-    sacramentHymn: { number: 175, title: 'O God, the Eternal Father' },
-    speakers: [
-      {
-        name: 'Sister Sofia Alvarado',
-        topic: 'Covenant Belonging in the Home',
-        type: 'speaker',
-      },
-      {
-        name: 'Stake Combined Choir',
-        topic: 'Come, Follow Me',
-        type: 'musical-number',
-      },
-      {
-        name: 'President Carlos Mendoza',
-        topic: 'Strengthening Rising Generations',
-        type: 'speaker',
-      },
-    ],
-    closingHymn: { number: 152, title: 'God Be with You Till We Meet Again' },
-    closingPrayer: 'Brother Marco Tulio Reyes',
-  },
-  {
-    id: 3,
-    date: '2026-11-01',
-    meetingType: 'testimony',
-    presiding: 'Bishop David Morales',
-    conducting: 'Bishop David Morales',
-    announcements: [
-      'Fast and Testimony Meeting',
-      'Ward temple trip scheduled for Saturday, November 21',
-    ],
-    openingHymn: { number: 85, title: 'How Firm a Foundation' },
-    openingPrayer: 'Brother Jorge Castillo',
-    wardBusiness: [
-      { description: 'Release of Sister Claudia Pineda as Primary Secretary' },
-      { description: 'Sustaining of Sister Valeria Gomez as Primary Secretary' },
-    ],
-    stakeBusiness: false,
-    sacramentHymn: { number: 169, title: 'In Remembrance of Thy Suffering' },
-    speakers: [],
-    closingHymn: { number: 134, title: 'I Believe in Christ' },
-    closingPrayer: 'Sister Gabriela Mejia',
-  },
-  {
-    id: 4,
-    date: '2026-11-08',
-    meetingType: 'regular',
-    presiding: 'Bishop David Morales',
-    conducting: 'Brother Luis Fernando Paz',
-    announcements: [
-      'Ward choir practice today at 12:30 PM in the chapel',
-      'Youth service project next Saturday at 8:00 AM',
-    ],
-    openingHymn: { number: 2, title: 'The Spirit of God' },
-    openingPrayer: 'Sister Carmen Rodriguez',
-    wardBusiness: [
-      { description: 'Sustaining of Brother Esteban Cruz as Elders Quorum Instructor' },
-    ],
-    stakeBusiness: false,
-    sacramentHymn: { number: 185, title: 'Reverently and Meekly Now' },
-    speakers: [
-      {
-        name: 'Brother Daniel Ordonez',
-        topic: 'Gratitude in Everyday Discipleship',
-        type: 'speaker',
-      },
-      {
-        name: 'Young Women Ensemble',
-        topic: 'Love One Another',
-        type: 'musical-number',
-      },
-      {
-        name: 'Sister Patricia Hernandez',
-        topic: 'Enduring to the End with Joy',
-        type: 'speaker',
-      },
-    ],
-    closingHymn: { number: 31, title: 'O God, Our Help in Ages Past' },
-    closingPrayer: 'Brother Hector Banegas',
-  },
-  {
-    id: 5,
-    date: '2026-11-15',
-    meetingType: 'regular',
-    presiding: 'Bishop David Morales',
-    conducting: 'Brother Andres Molina',
-    announcements: [
-      'Ward family history indexing workshop Wednesday at 7:00 PM',
-      'Missionary preparation class begins next Sunday during second hour',
-    ],
-    openingHymn: { number: 92, title: 'For the Beauty of the Earth' },
-    openingPrayer: 'Sister Lorena Vasquez',
-    wardBusiness: [
-      { description: 'Welcome new ward members: the Martinez family' },
-    ],
-    stakeBusiness: false,
-    sacramentHymn: { number: 172, title: 'In Humility, Our Savior' },
-    speakers: [
-      {
-        name: 'Sister Mariana Castro',
-        topic: 'Developing Christlike Attributes',
-        type: 'speaker',
-      },
-      {
-        name: 'Brother Ricardo Flores (Violin Solo)',
-        topic: 'Be Still, My Soul',
-        type: 'musical-number',
-      },
-      {
-        name: 'Brother Samuel Reyes',
-        topic: 'Faith Precedes the Miracle',
-        type: 'speaker',
-      },
-    ],
-    closingHymn: { number: 223, title: 'Have I Done Any Good?' },
-    closingPrayer: 'Sister Rosa Maria Nunez',
-  },
-  {
-    id: 6,
-    date: '2026-11-22',
-    meetingType: 'regular',
-    presiding: 'Bishop David Morales',
-    conducting: 'Brother Luis Fernando Paz',
-    announcements: [
-      'Ward Thanksgiving devotional next Friday at 6:30 PM',
-    ],
-    openingHymn: { number: 94, title: 'Come, Ye Thankful People' },
-    openingPrayer: 'Brother Kevin Alvarado',
-    wardBusiness: [],
-    stakeBusiness: false,
-    sacramentHymn: { number: 181, title: 'Jesus of Nazareth, Savior and King' },
-    speakers: [
-      {
-        name: 'Sister Natalia Santos',
-        topic: 'Counting Our Blessings',
-        type: 'speaker',
-      },
-      {
-        name: 'Primary Children Choir',
-        topic: 'My Heavenly Father Loves Me',
-        type: 'musical-number',
-      },
-      {
-        name: 'Bishop David Morales',
-        topic: 'Giving Thanks in All Things',
-        type: 'speaker',
-      },
-    ],
-    closingHymn: { number: 241, title: 'Count Your Blessings' },
-    closingPrayer: 'Sister Teresa Maldonado',
-  },
-];
-
-export function getMeetings(date?: string | null): SacramentMeeting[] {
-  if (date) {
-    return meetings.filter((m) => m.date === date);
+function getSql() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not set in environment variables");
   }
-  return meetings;
+  return neon(process.env.DATABASE_URL);
 }
 
-export function getMeetingById(id: number): SacramentMeeting | null {
-  return meetings.find((m) => m.id === id) ?? null;
+interface MeetingRow {
+  id: number;
+  date: string;
+  meeting_type: SacramentMeeting["meetingType"];
+  presiding: string;
+  conducting: string;
+  announcements: string[] | null;
+  opening_hymn: SacramentMeeting["openingHymn"];
+  opening_prayer: string;
+  ward_business: Array<{
+    description?: string;
+    action?: string;
+    person?: string;
+    calling?: string;
+  }> | null;
+  stake_business: boolean | null;
+  sacrament_hymn: SacramentMeeting["sacramentHymn"];
+  speakers: Array<{
+    name: string;
+    topic: string;
+    type?: "speaker" | "musical-number";
+  }> | null;
+  closing_hymn: SacramentMeeting["closingHymn"];
+  closing_prayer: string;
+}
+
+function mapRowToMeeting(row: MeetingRow): SacramentMeeting {
+  return {
+    id: row.id,
+    date: row.date,
+    meetingType: row.meeting_type,
+    presiding: row.presiding,
+    conducting: row.conducting,
+    announcements: row.announcements ?? [],
+    openingHymn: row.opening_hymn,
+    openingPrayer: row.opening_prayer,
+    wardBusiness: (row.ward_business ?? []).map((item) => ({
+      description:
+        item.description ??
+        [item.action, item.person, item.calling].filter(Boolean).join(" - "),
+    })),
+    stakeBusiness: Boolean(row.stake_business),
+    sacramentHymn: row.sacrament_hymn,
+    speakers: (row.speakers ?? []).map((s) => ({
+      name: s.name,
+      topic: s.topic,
+      type: s.type ?? "speaker",
+    })),
+    closingHymn: row.closing_hymn,
+    closingPrayer: row.closing_prayer,
+  };
+}
+
+export async function getMeetings(
+  date?: string | null,
+): Promise<SacramentMeeting[]> {
+  const sql = getSql();
+
+  const rows = date
+    ? await sql`
+        SELECT
+          id,
+          TO_CHAR(date, 'YYYY-MM-DD') AS date,
+          meeting_type,
+          presiding,
+          conducting,
+          announcements,
+          opening_hymn,
+          opening_prayer,
+          ward_business,
+          stake_business,
+          sacrament_hymn,
+          speakers,
+          closing_hymn,
+          closing_prayer
+        FROM meetings
+        WHERE date = ${date}::date
+        ORDER BY date DESC
+      `
+    : await sql`
+        SELECT
+          id,
+          TO_CHAR(date, 'YYYY-MM-DD') AS date,
+          meeting_type,
+          presiding,
+          conducting,
+          announcements,
+          opening_hymn,
+          opening_prayer,
+          ward_business,
+          stake_business,
+          sacrament_hymn,
+          speakers,
+          closing_hymn,
+          closing_prayer
+        FROM meetings
+        ORDER BY date DESC
+      `;
+
+  return (rows as MeetingRow[]).map(mapRowToMeeting);
+}
+
+export async function getMeetingById(
+  id: number,
+): Promise<SacramentMeeting | null> {
+  const sql = getSql();
+
+  const rows = await sql`
+    SELECT
+      id,
+      TO_CHAR(date, 'YYYY-MM-DD') AS date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+    FROM meetings
+    WHERE id = ${id}
+  `;
+
+  const row = (rows as MeetingRow[])[0];
+  return row ? mapRowToMeeting(row) : null;
+}
+
+export async function createMeeting(
+  meeting: Omit<SacramentMeeting, "id">,
+): Promise<SacramentMeeting> {
+  const sql = getSql();
+
+  const rows = await sql`
+    INSERT INTO meetings (
+      date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+    ) VALUES (
+      ${meeting.date}::date,
+      ${meeting.meetingType},
+      ${meeting.presiding},
+      ${meeting.conducting},
+      ${meeting.announcements},
+      ${JSON.stringify(meeting.openingHymn)}::jsonb,
+      ${meeting.openingPrayer},
+      ${JSON.stringify(meeting.wardBusiness)}::jsonb,
+      ${meeting.stakeBusiness},
+      ${JSON.stringify(meeting.sacramentHymn)}::jsonb,
+      ${JSON.stringify(meeting.speakers)}::jsonb,
+      ${JSON.stringify(meeting.closingHymn)}::jsonb,
+      ${meeting.closingPrayer}
+    )
+    RETURNING
+      id,
+      TO_CHAR(date, 'YYYY-MM-DD') AS date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+  `;
+
+  return mapRowToMeeting((rows as MeetingRow[])[0]);
+}
+
+export async function updateMeeting(
+  id: number,
+  updates: Partial<Omit<SacramentMeeting, "id">>,
+): Promise<SacramentMeeting | null> {
+  const existing = await getMeetingById(id);
+  if (!existing) return null;
+
+  const merged: Omit<SacramentMeeting, "id"> = {
+    date: updates.date ?? existing.date,
+    meetingType: updates.meetingType ?? existing.meetingType,
+    presiding: updates.presiding ?? existing.presiding,
+    conducting: updates.conducting ?? existing.conducting,
+    announcements: updates.announcements ?? existing.announcements,
+    openingHymn: updates.openingHymn ?? existing.openingHymn,
+    openingPrayer: updates.openingPrayer ?? existing.openingPrayer,
+    wardBusiness: updates.wardBusiness ?? existing.wardBusiness,
+    stakeBusiness: updates.stakeBusiness ?? existing.stakeBusiness,
+    sacramentHymn: updates.sacramentHymn ?? existing.sacramentHymn,
+    speakers: updates.speakers ?? existing.speakers,
+    closingHymn: updates.closingHymn ?? existing.closingHymn,
+    closingPrayer: updates.closingPrayer ?? existing.closingPrayer,
+  };
+
+  const sql = getSql();
+
+  const rows = await sql`
+    UPDATE meetings
+    SET
+      date = ${merged.date}::date,
+      meeting_type = ${merged.meetingType},
+      presiding = ${merged.presiding},
+      conducting = ${merged.conducting},
+      announcements = ${merged.announcements},
+      opening_hymn = ${JSON.stringify(merged.openingHymn)}::jsonb,
+      opening_prayer = ${merged.openingPrayer},
+      ward_business = ${JSON.stringify(merged.wardBusiness)}::jsonb,
+      stake_business = ${merged.stakeBusiness},
+      sacrament_hymn = ${JSON.stringify(merged.sacramentHymn)}::jsonb,
+      speakers = ${JSON.stringify(merged.speakers)}::jsonb,
+      closing_hymn = ${JSON.stringify(merged.closingHymn)}::jsonb,
+      closing_prayer = ${merged.closingPrayer}
+    WHERE id = ${id}
+    RETURNING
+      id,
+      TO_CHAR(date, 'YYYY-MM-DD') AS date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+  `;
+
+  const row = (rows as MeetingRow[])[0];
+  return row ? mapRowToMeeting(row) : null;
+}
+
+export async function deleteMeeting(id: number): Promise<boolean> {
+  const sql = getSql();
+  const rows = await sql`
+    DELETE FROM meetings
+    WHERE id = ${id}
+    RETURNING id
+  `;
+  return rows.length > 0;
 }
