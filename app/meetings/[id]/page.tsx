@@ -1,20 +1,20 @@
-import { notFound } from 'next/navigation';
-import MeetingDetail from '@/components/MeetingDetail';
-import { getMeetingById } from '@/lib/meetings-db';
+import { notFound } from "next/navigation";
+import MeetingDetail from "@/components/MeetingDetail";
+import { getMeetingById } from "@/lib/meetings-db";
 
-interface PageProps {
+export default async function MeetingDetailPage({
+  params,
+}: {
   params: Promise<{ id: string }>;
-}
-
-export default async function MeetingDetailPage({ params }: PageProps) {
+}) {
   const { id } = await params;
   const numericId = Number(id);
 
-  if (Number.isNaN(numericId)) {
+  if (!Number.isInteger(numericId) || numericId <= 0) {
     notFound();
   }
 
-  const meeting = getMeetingById(numericId);
+  const meeting = await getMeetingById(numericId);
 
   if (!meeting) {
     notFound();
