@@ -1,21 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import NavLinks from './NavLinks';
+import NavLinks from "./NavLinks";
 
 export default function Header() {
-  const [currentDate, setCurrentDate] = useState<string>('');
-
-  useEffect(() => {
-    setCurrentDate(
-      new Date().toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    );
-  }, []);
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <header className="bg-blue-900 text-white shadow-md">
