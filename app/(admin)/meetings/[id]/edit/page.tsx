@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getMeetingById } from "@/lib/meetings-db";
+import { updateMeeting } from "@/lib/actions";
+import EditMeetingForm from "./EditMeetingForm";
+
+interface EditMeetingPageProps {
+  params: Promise<{ id: string }>;
+}
 
 export default async function EditMeetingPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+}: EditMeetingPageProps) {
   const { id } = await params;
   const numericId = Number(id);
 
@@ -20,29 +24,33 @@ export default async function EditMeetingPage({
     notFound();
   }
 
+  const boundUpdateAction = updateMeeting.bind(null, meeting.id);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
-            Edit Meeting #{meeting.id}
+            Edit Sacrament Meeting
           </h2>
           <p className="mt-1 text-sm text-gray-600">
-            Date: {meeting.date} — {meeting.meetingType}
+            Update details for meeting #{meeting.id} on {meeting.date}.
           </p>
         </div>
 
         <Link
-          href={`/meetings/${meeting.id}`}
+          href="/meetings"
           className="text-sm font-medium text-gray-600 hover:text-gray-900"
         >
-          Back to Meeting Detail
+          Back to Meetings
         </Link>
       </div>
 
-      <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-6">
-        <p className="text-sm text-gray-700">Edit meeting form goes here.</p>
-      </div>
+      <EditMeetingForm
+        key={meeting.id}
+        action={boundUpdateAction}
+        meeting={meeting}
+      />
     </div>
   );
 }
