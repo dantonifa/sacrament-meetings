@@ -1,6 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 import type { SacramentMeeting } from "./types";
 
+const ITEMS_PER_PAGE = 5;
+
 function getSql() {
   if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL is not set in environment variables");
@@ -62,52 +64,64 @@ function mapRowToMeeting(row: MeetingRow): SacramentMeeting {
 }
 
 export async function getMeetings(
-  date?: string | null,
+  query: string = "",
+  currentPage: number = 1,
 ): Promise<SacramentMeeting[]> {
   const sql = getSql();
+  const safePage =
+    Number.isInteger(currentPage) && currentPage > 0 ? currentPage : 1;
+  const searchTerm = `%${query.trim()}%`;
+  const offset = (safePage - 1) * ITEMS_PER_PAGE;
 
-  const rows = date
-    ? await sql`
-        SELECT
-          id,
-          TO_CHAR(date, 'YYYY-MM-DD') AS date,
-          meeting_type,
-          presiding,
-          conducting,
-          announcements,
-          opening_hymn,
-          opening_prayer,
-          ward_business,
-          stake_business,
-          sacrament_hymn,
-          speakers,
-          closing_hymn,
-          closing_prayer
-        FROM meetings
-        WHERE date = ${date}::date
-        ORDER BY date DESC
-      `
-    : await sql`
-        SELECT
-          id,
-          TO_CHAR(date, 'YYYY-MM-DD') AS date,
-          meeting_type,
-          presiding,
-          conducting,
-          announcements,
-          opening_hymn,
-          opening_prayer,
-          ward_business,
-          stake_business,
-          sacrament_hymn,
-          speakers,
-          closing_hymn,
-          closing_prayer
-        FROM meetings
-        ORDER BY date DESC
-      `;
+  const rows = await sql`
+    SELECT
+      id,
+      TO_CHAR(date, 'YYYY-MM-DD') AS date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+    FROM meetings
+    WHERE
+      presiding       ILIKE ${searchTerm}
+      OR conducting   ILIKE ${searchTerm}
+      OR meeting_type ILIKE ${searchTerm}
+      OR speakers::text ILIKE ${searchTerm}
+    ORDER BY date DESC
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+  `;
 
   return (rows as MeetingRow[]).map(mapRowToMeeting);
+}
+
+export async function getMeetingsTotalPages(
+  query: string = "",
+): Promise<number> {
+  const sql = getSql();
+  const searchTerm = `%${query.trim()}%`;
+
+  const rows = await sql`
+    SELECT COUNT(*)::int AS count
+    FROM meetings
+    WHERE
+      presiding       ILIKE ${searchTerm}
+      OR conducting   ILIKE ${searchTerm}
+      OR meeting_type ILIKE ${searchTerm}
+      OR speakers::text ILIKE ${searchTerm}
+  `;
+
+  const totalItems = Number(
+    (rows[0] as { count?: number } | undefined)?.count ?? 0,
+  );
+  return Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE));
 }
 
 export async function getMeetingById(
@@ -137,6 +151,35 @@ export async function getMeetingById(
 
   const row = (rows as MeetingRow[])[0];
   return row ? mapRowToMeeting(row) : null;
+}
+
+export async function getMeetingsByDate(
+  date: string,
+): Promise<SacramentMeeting[]> {
+  const sql = getSql();
+
+  const rows = await sql`
+    SELECT
+      id,
+      TO_CHAR(date, 'YYYY-MM-DD') AS date,
+      meeting_type,
+      presiding,
+      conducting,
+      announcements,
+      opening_hymn,
+      opening_prayer,
+      ward_business,
+      stake_business,
+      sacrament_hymn,
+      speakers,
+      closing_hymn,
+      closing_prayer
+    FROM meetings
+    WHERE date = ${date}::date
+    ORDER BY date DESC
+  `;
+
+  return (rows as MeetingRow[]).map(mapRowToMeeting);
 }
 
 export async function createMeeting(
